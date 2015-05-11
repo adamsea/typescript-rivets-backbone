@@ -1,0 +1,29 @@
+{
+  "name": "blopboard-web-analytics",
+  "version": "0.0.0",
+  "authors": [
+    "Blopboard"
+  ],
+  "description": "Components for the Blopboard Analytics Interface",
+  "main": "src/main.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "Proprietary",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.4",
+    "lodash": "~2.4.2",
+    "requirejs": "~2.1.17",
+    "requirejs-i18n": "~2.0.5",
+    "rivets": "~0.8.1",
+    "rivets-backbone-adapter": "~2.1.2"
+  }
+}
