@@ -28,5 +28,5 @@ requirejs.config({
 //
 require(['application'], function (Application) {
     var app = new Application();
-    app.run();
+    app.render();
 });

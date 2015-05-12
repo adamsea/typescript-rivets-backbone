@@ -5,7 +5,14 @@
     <title>PAGE TITLE</title>
 </head>
 <body>
-	<div id="application"></div>
+	<div id="application">
+		<ul>
+			<li rv-each-item="collection.models">
+				<span rv-text="item:text"></span>
+			</li>
+		</ul>
+		<button rv-text="model:text"></button>
+	</div>
     <!-- This is a VERY bare bones version of a HTML5 template! -->
 	<script data-main="src/main" src="bower_components/requirejs/require.js"></script>
 </body>

@@ -1,4 +1,6 @@
 /// <reference path="../typings/tsd.d.ts" />
+/// <amd-dependency path="rivets" />
+/// <amd-dependency path="rivets-backbone" />
 
 import Backbone = require('backbone');
 import _ = require('underscore');
@@ -11,33 +13,45 @@ import _ = require('underscore');
  */
 class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	
-	events(): Object {
-		return {
-			'click button': () => {
-				alert('hi there!');
-			}
-		};
-	}
-
 	/**
 	 * Constructor for the application.
 	 * @method constructor
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	constructor(options: Backbone.ViewOptions<TModel> = {}) {
+		let model1 = new Backbone.Model({text: 'Item 1'});
+		let model2 = new Backbone.Model({text: 'Item 2'});
+		let model3 = new Backbone.Model({text: 'A Button'});
 		_.defaults(options, {
-			el: '#application'
+			collection: new Backbone.Collection([model1, model2]),
+			el: '#application',
+			model: model3
 		});
 		super(options);
 	}
-
+	
+	/**
+	 * Declarative events for the view.
+	 * @method events
+	 * @type {Object}
+	 */
+	events(): Object {
+		return {
+			'click button': () => {
+				alert('button clicked');
+			}
+		};
+	}
+	
 	/**
 	 * Application initialization logic.
 	 * @method initialize
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
-	public initialize(options?: Backbone.ViewOptions<TModel>): void {
+	initialize(options?: Backbone.ViewOptions<TModel>): void {
 		console.log('initialize');
+		
+		// Set up subviews
 	}
 	
 	/**
@@ -45,21 +59,17 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @method render
 	 * @return {Backbone.View} The view instance
 	 */
-	public render(): Backbone.View<TModel> {
+	render(): Backbone.View<TModel> {
 		console.log('render');
-		this.$el.html("<button>Click me</button>");
+		
+		let rivets = require('rivets');
+		rivets.bind(this.$el, {collection: this.collection, model: this.model});
+		
+		// render subviews
+		
 		return this;
 	}
-
-	/**
-	 * Run the application.
-	 * @method run
-	 */
-	public run(): void {
-		console.log('run');
-		this.render();
-	}
-
+	
 }
 
 export = Application;
