@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone'], function (require, exports, Backbone) {
+define(["require", "exports", 'backbone', 'underscore'], function (require, exports, Backbone, _) {
     /**
      * This is the application loader for Blopboard Analytics.
      * @class Application
@@ -20,22 +20,44 @@ define(["require", "exports", 'backbone'], function (require, exports, Backbone)
          * @param {Backbone.ViewOptions} options The application options
          */
         function Application(options) {
+            if (options === void 0) { options = {}; }
+            _.defaults(options, {
+                el: '#application'
+            });
             _super.call(this, options);
         }
+        Application.prototype.events = function () {
+            return {
+                'click button': function () {
+                    alert('hi there!');
+                }
+            };
+        };
         /**
          * Application initialization logic.
          * @method initialize
          * @param {Backbone.ViewOptions} options The application options
          */
         Application.prototype.initialize = function (options) {
-            console.log('here');
+            console.log('initialize');
+        };
+        /**
+         * Render the view.
+         * @method render
+         * @return {Backbone.View} The view instance
+         */
+        Application.prototype.render = function () {
+            console.log('render');
+            this.$el.html("<button>Click me</button>");
+            return this;
         };
         /**
          * Run the application.
          * @method run
          */
         Application.prototype.run = function () {
-            console.log('running');
+            console.log('run');
+            this.render();
         };
         return Application;
     })(Backbone.View);
