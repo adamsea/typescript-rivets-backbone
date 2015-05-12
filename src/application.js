@@ -7,7 +7,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone', 'underscore', "rivets", "rivets-backbone"], function (require, exports, Backbone, _) {
+define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, ButtonView) {
     /**
      * This is the application loader for Blopboard Analytics.
      * @class Application
@@ -23,36 +23,24 @@ define(["require", "exports", 'backbone', 'underscore', "rivets", "rivets-backbo
          */
         function Application(options) {
             if (options === void 0) { options = {}; }
-            var model1 = new Backbone.Model({ text: 'Item 1' });
-            var model2 = new Backbone.Model({ text: 'Item 2' });
-            var model3 = new Backbone.Model({ text: 'A Button' });
-            _.defaults(options, {
-                collection: new Backbone.Collection([model1, model2]),
-                el: '#application',
-                model: model3
-            });
+            _.defaults(options, { el: '#application' });
             _super.call(this, options);
         }
-        /**
-         * Declarative events for the view.
-         * @method events
-         * @type {Object}
-         */
-        Application.prototype.events = function () {
-            return {
-                'click button': function () {
-                    alert('button clicked');
-                }
-            };
-        };
         /**
          * Application initialization logic.
          * @method initialize
          * @param {Backbone.ViewOptions} options The application options
          */
         Application.prototype.initialize = function (options) {
-            console.log('initialize');
-            // Set up subviews
+            var rivets = require('rivets');
+            var buttonView = new ButtonView({
+                el: 'button-item',
+                model: new Backbone.Model({ text: 'Component Button' })
+            });
+            rivets.components['button-item'] = {
+                initialize: function () { return buttonView; },
+                template: function () { return '<button rv-text="model:text"></button>'; }
+            };
         };
         /**
          * Render the view.
@@ -60,10 +48,8 @@ define(["require", "exports", 'backbone', 'underscore', "rivets", "rivets-backbo
          * @return {Backbone.View} The view instance
          */
         Application.prototype.render = function () {
-            console.log('render');
             var rivets = require('rivets');
-            rivets.bind(this.$el, { collection: this.collection, model: this.model });
-            // render subviews
+            rivets.bind(this.$el, { collection: this.collection });
             return this;
         };
         return Application;

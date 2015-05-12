@@ -4,6 +4,7 @@
 
 import Backbone = require('backbone');
 import _ = require('underscore');
+import ButtonView = require('views/button');
 
 /**
  * This is the application loader for Blopboard Analytics.
@@ -19,28 +20,8 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	constructor(options: Backbone.ViewOptions<TModel> = {}) {
-		let model1 = new Backbone.Model({text: 'Item 1'});
-		let model2 = new Backbone.Model({text: 'Item 2'});
-		let model3 = new Backbone.Model({text: 'A Button'});
-		_.defaults(options, {
-			collection: new Backbone.Collection([model1, model2]),
-			el: '#application',
-			model: model3
-		});
+		_.defaults(options, {el: '#application'});
 		super(options);
-	}
-	
-	/**
-	 * Declarative events for the view.
-	 * @method events
-	 * @type {Object}
-	 */
-	events(): Object {
-		return {
-			'click button': () => {
-				alert('button clicked');
-			}
-		};
 	}
 	
 	/**
@@ -48,10 +29,16 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @method initialize
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
-	initialize(options?: Backbone.ViewOptions<TModel>): void {
-		console.log('initialize');
-		
-		// Set up subviews
+	initialize(options: Backbone.ViewOptions<TModel>): void {
+		let rivets = require('rivets');
+		let buttonView = new ButtonView({
+			el: 'button-item',
+			model: new Backbone.Model({text: 'Component Button'})
+		});
+		rivets.components['button-item'] = {
+			initialize: () => buttonView,
+			template: () => '<button rv-text="model:text"></button>'
+		};
 	}
 	
 	/**
@@ -60,13 +47,8 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @return {Backbone.View} The view instance
 	 */
 	render(): Backbone.View<TModel> {
-		console.log('render');
-		
 		let rivets = require('rivets');
-		rivets.bind(this.$el, {collection: this.collection, model: this.model});
-		
-		// render subviews
-		
+		rivets.bind(this.$el, {collection: this.collection});
 		return this;
 	}
 	

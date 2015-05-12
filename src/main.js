@@ -27,6 +27,11 @@ requirejs.config({
 // Run the application
 //
 require(['application'], function (Application) {
-    var app = new Application();
+    var app = new Application({
+        collection: new Backbone.Collection([
+            new Backbone.Model({ text: 'Item 1' }),
+            new Backbone.Model({ text: 'Item 2' })
+        ])
+    });
     app.render();
 });
