@@ -15,6 +15,13 @@ import ButtonView = require('views/button');
 class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	
 	/**
+	 * Array of subviews for the application.
+	 * @property subviews
+	 * @type {Array}
+	 */
+	subviews: {id:string, subview:Backbone.View<Backbone.Model>}[]
+	
+	/**
 	 * Constructor for the application.
 	 * @method constructor
 	 * @param {Backbone.ViewOptions} options The application options
@@ -30,15 +37,24 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	initialize(options: Backbone.ViewOptions<TModel>): void {
-		let rivets = require('rivets');
-		let buttonView = new ButtonView({
-			el: 'button-item',
-			model: new Backbone.Model({text: 'Component Button'})
+		this.subviews = [];
+		this.subviews.push({
+			id: 'button-item',
+			subview: new ButtonView({
+				el: 'button-item',
+				model: new Backbone.Model({text: 'Component Button'})
+			})
 		});
-		rivets.components['button-item'] = {
-			initialize: () => buttonView,
-			template: () => '<button rv-text="model:text"></button>'
-		};
+	}
+	
+	/**
+	 * Remove the view.
+	 * Will also remove subviews.
+	 * @method remove
+	 */
+	remove(): Backbone.View<TModel> {
+		this.subviews.forEach((i) => i.subview.remove());
+		return super.remove();
 	}
 	
 	/**

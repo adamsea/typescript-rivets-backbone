@@ -32,15 +32,23 @@ define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets"
          * @param {Backbone.ViewOptions} options The application options
          */
         Application.prototype.initialize = function (options) {
-            var rivets = require('rivets');
-            var buttonView = new ButtonView({
-                el: 'button-item',
-                model: new Backbone.Model({ text: 'Component Button' })
+            this.subviews = [];
+            this.subviews.push({
+                id: 'button-item',
+                subview: new ButtonView({
+                    el: 'button-item',
+                    model: new Backbone.Model({ text: 'Component Button' })
+                })
             });
-            rivets.components['button-item'] = {
-                initialize: function () { return buttonView; },
-                template: function () { return '<button rv-text="model:text"></button>'; }
-            };
+        };
+        /**
+         * Remove the view.
+         * Will also remove subviews.
+         * @method remove
+         */
+        Application.prototype.remove = function () {
+            this.subviews.forEach(function (i) { return i.subview.remove(); });
+            return _super.prototype.remove.call(this);
         };
         /**
          * Render the view.
