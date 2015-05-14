@@ -14,7 +14,7 @@ class ButtonView<TModel extends Backbone.Model> extends BaseView<TModel> {
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	constructor(options: Backbone.ViewOptions<TModel> = {}) {
-		_.defaults(options, {tagName: 'button-item'});
+		_.defaults(options, {tagName: _.uniqueId('button-item-')});
 		super(options);
 	}
 	

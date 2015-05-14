@@ -18,7 +18,7 @@ define(["require", "exports", 'underscore', 'views/base'], function (require, ex
          */
         function ButtonView(options) {
             if (options === void 0) { options = {}; }
-            _.defaults(options, { tagName: 'button-item' });
+            _.defaults(options, { tagName: _.uniqueId('button-item-') });
             _super.call(this, options);
         }
         /**
