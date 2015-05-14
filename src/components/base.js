@@ -5,8 +5,9 @@ define(["require", "exports", "rivets", "rivets-backbone"], function (require, e
     var BaseComponent = (function () {
         /**
          * Constructor for the component.
-         * Right now this is empty but will
-         * eventually contain view init logic.
+         * Creates the associated bound component for the provided view.
+         * @method constructor
+         * @param {Backbone.ViewOptions} options The application options
          */
         function BaseComponent(options) {
             var _this = this;

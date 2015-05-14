@@ -11,7 +11,7 @@ define(["require", "exports", 'views/button', 'components/base'], function (requ
         /**
          * Constructor for the component.
          * @method constructor
-         * @param
+         * @param {Backbone.ViewOptions} options The application options
          */
         function ButtonItem(options) {
             if (options === void 0) { options = {}; }
