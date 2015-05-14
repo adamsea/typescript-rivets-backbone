@@ -4,7 +4,8 @@
 
 import Backbone = require('backbone');
 import _ = require('underscore');
-import ButtonView = require('views/button');
+import BaseComponent = require('components/base');
+import ButtonItem = require('components/button-item');
 
 /**
  * This is the application loader for Blopboard Analytics.
@@ -15,11 +16,11 @@ import ButtonView = require('views/button');
 class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	
 	/**
-	 * Array of subviews for the application.
-	 * @property subviews
+	 * Array of components for the application.
+	 * @property components
 	 * @type {Array}
 	 */
-	subviews: {id:string, subview:Backbone.View<Backbone.Model>}[]
+	components: BaseComponent[]
 	
 	/**
 	 * Constructor for the application.
@@ -30,21 +31,18 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 		_.defaults(options, {el: '#application'});
 		super(options);
 	}
-	
+
 	/**
 	 * Application initialization logic.
 	 * @method initialize
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	initialize(options: Backbone.ViewOptions<TModel>): void {
-		this.subviews = [];
-		this.subviews.push({
-			id: 'button-item',
-			subview: new ButtonView({
-				el: 'button-item',
-				model: new Backbone.Model({text: 'Component Button'})
-			})
-		});
+		this.components = [];
+		this.components.push(new ButtonItem({
+			container: '#components',
+			model: new Backbone.Model({text: 'Component Button'})
+		}));
 	}
 	
 	/**
@@ -53,7 +51,8 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @method remove
 	 */
 	remove(): Backbone.View<TModel> {
-		this.subviews.forEach((i) => i.subview.remove());
+		// Destroy all subcomponents
+		this.components.forEach((i) => i.view.remove());
 		return super.remove();
 	}
 	
@@ -63,9 +62,13 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @return {Backbone.View} The view instance
 	 */
 	render(): Backbone.View<TModel> {
+		// Render all subcomponents
+		this.components.forEach((i) => i.view.render());
+		
+		// Bind components to rivets
 		let rivets = require('rivets');
 		rivets.bind(this.$el, {collection: this.collection});
-		return this;
+		return super.render();
 	}
 	
 }

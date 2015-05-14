@@ -7,7 +7,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, ButtonView) {
+define(["require", "exports", 'backbone', 'underscore', 'components/button-item', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, ButtonItem) {
     /**
      * This is the application loader for Blopboard Analytics.
      * @class Application
@@ -32,14 +32,11 @@ define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets"
          * @param {Backbone.ViewOptions} options The application options
          */
         Application.prototype.initialize = function (options) {
-            this.subviews = [];
-            this.subviews.push({
-                id: 'button-item',
-                subview: new ButtonView({
-                    el: 'button-item',
-                    model: new Backbone.Model({ text: 'Component Button' })
-                })
-            });
+            this.components = [];
+            this.components.push(new ButtonItem({
+                container: '#components',
+                model: new Backbone.Model({ text: 'Component Button' })
+            }));
         };
         /**
          * Remove the view.
@@ -47,7 +44,8 @@ define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets"
          * @method remove
          */
         Application.prototype.remove = function () {
-            this.subviews.forEach(function (i) { return i.subview.remove(); });
+            // Destroy all subcomponents
+            this.components.forEach(function (i) { return i.view.remove(); });
             return _super.prototype.remove.call(this);
         };
         /**
@@ -56,9 +54,12 @@ define(["require", "exports", 'backbone', 'underscore', 'views/button', "rivets"
          * @return {Backbone.View} The view instance
          */
         Application.prototype.render = function () {
+            // Render all subcomponents
+            this.components.forEach(function (i) { return i.view.render(); });
+            // Bind components to rivets
             var rivets = require('rivets');
             rivets.bind(this.$el, { collection: this.collection });
-            return this;
+            return _super.prototype.render.call(this);
         };
         return Application;
     })(Backbone.View);

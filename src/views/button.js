@@ -1,13 +1,11 @@
 /// <reference path="../../typings/tsd.d.ts" />
-/// <amd-dependency path="rivets" />
-/// <amd-dependency path="rivets-backbone" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone', 'underscore', 'components/button-item', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, ButtonItem) {
+define(["require", "exports", 'underscore', 'views/base'], function (require, exports, _, BaseView) {
     /**
      * This is a simple button view.
      */
@@ -20,18 +18,9 @@ define(["require", "exports", 'backbone', 'underscore', 'components/button-item'
          */
         function ButtonView(options) {
             if (options === void 0) { options = {}; }
-            _.defaults(options, { el: 'button-item' });
+            _.defaults(options, { tagName: 'button-item' });
             _super.call(this, options);
         }
-        /**
-         * Initialization logic for the View.
-         * Sets up a component instance based on the provided template.
-         * @method initialize
-         */
-        ButtonView.prototype.initialize = function (options) {
-            this.template = '<button rv-text="model:text"></button>';
-            this.component = new ButtonItem(this);
-        };
         /**
          * Declarative events for the view.
          * @method events
@@ -43,6 +32,6 @@ define(["require", "exports", 'backbone', 'underscore', 'components/button-item'
             };
         };
         return ButtonView;
-    })(Backbone.View);
+    })(BaseView);
     return ButtonView;
 });
