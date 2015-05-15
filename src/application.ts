@@ -4,8 +4,10 @@
 
 import Backbone = require('backbone');
 import _ = require('underscore');
-import BaseComponent = require('components/base');
-import ButtonItem = require('components/button-item');
+import BaseView = require('views/base');
+
+// Possible pages
+import OverviewPage = require('pages/overview');
 
 /**
  * This is the application loader for Blopboard Analytics.
@@ -16,11 +18,12 @@ import ButtonItem = require('components/button-item');
 class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	
 	/**
-	 * Array of components for the application.
-	 * @property components
-	 * @type {Array}
+	 * Page instance to render.
+	 * This gets swapped based on navigation.
+	 * @property page
+	 * @type {BaseView}
 	 */
-	components: BaseComponent[]
+	page: BaseView<Backbone.Model>
 	
 	/**
 	 * Constructor for the application.
@@ -38,21 +41,21 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
 	initialize(options: Backbone.ViewOptions<TModel>): void {
-		this.components = [];
-		this.components.push(new ButtonItem({
-			container: '#components',
+		// Select the page
+		this.page = new OverviewPage({
 			model: new Backbone.Model({text: 'Component Button'})
-		}));
+		});
 	}
 	
 	/**
 	 * Remove the view.
 	 * Will also remove subviews.
 	 * @method remove
+	 * @return {Backbone.View} The view instance
 	 */
 	remove(): Backbone.View<TModel> {
-		// Destroy all subcomponents
-		this.components.forEach((i) => i.view.remove());
+		// Destroy the page
+		this.page.remove();
 		return super.remove();
 	}
 	
@@ -62,8 +65,8 @@ class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
 	 * @return {Backbone.View} The view instance
 	 */
 	render(): Backbone.View<TModel> {
-		// Render all subcomponents
-		this.components.forEach((i) => i.view.render());
+		// Render the page
+		this.page.render();
 		
 		// Bind components to rivets
 		let rivets = require('rivets');

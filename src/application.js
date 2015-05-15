@@ -7,7 +7,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone', 'underscore', 'components/button-item', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, ButtonItem) {
+define(["require", "exports", 'backbone', 'underscore', 'pages/overview', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, OverviewPage) {
     /**
      * This is the application loader for Blopboard Analytics.
      * @class Application
@@ -32,20 +32,20 @@ define(["require", "exports", 'backbone', 'underscore', 'components/button-item'
          * @param {Backbone.ViewOptions} options The application options
          */
         Application.prototype.initialize = function (options) {
-            this.components = [];
-            this.components.push(new ButtonItem({
-                container: '#components',
+            // Select the page
+            this.page = new OverviewPage({
                 model: new Backbone.Model({ text: 'Component Button' })
-            }));
+            });
         };
         /**
          * Remove the view.
          * Will also remove subviews.
          * @method remove
+         * @return {Backbone.View} The view instance
          */
         Application.prototype.remove = function () {
-            // Destroy all subcomponents
-            this.components.forEach(function (i) { return i.view.remove(); });
+            // Destroy the page
+            this.page.remove();
             return _super.prototype.remove.call(this);
         };
         /**
@@ -54,8 +54,8 @@ define(["require", "exports", 'backbone', 'underscore', 'components/button-item'
          * @return {Backbone.View} The view instance
          */
         Application.prototype.render = function () {
-            // Render all subcomponents
-            this.components.forEach(function (i) { return i.view.render(); });
+            // Render the page
+            this.page.render();
             // Bind components to rivets
             var rivets = require('rivets');
             rivets.bind(this.$el, { collection: this.collection });
