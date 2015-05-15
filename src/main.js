@@ -15,6 +15,7 @@ requirejs.config({
         "underscore": "../bower_components/lodash/dist/lodash.underscore",
         // RequireJS extensions
         "i18n": "../bower_components/requirejs-i18n/i18n",
+        "text": "../bower_components/requirejs-text/text",
         // jQuery & friends
         "jquery": "../bower_components/jquery/dist/jquery",
         // Other libs

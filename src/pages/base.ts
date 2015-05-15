@@ -29,7 +29,7 @@ class BasePage<TModel extends Backbone.Model> extends BaseView<TModel> {
 	 * @method initialize
 	 * @param {Backbone.ViewOptions} options The page options
 	 */
-	initialize(options: Backbone.ViewOptions<TModel>) {
+	initialize(options: Backbone.ViewOptions<TModel>): void {
 		super.initialize(options);
 		
 		// Initialize page components
