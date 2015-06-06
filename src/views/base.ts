@@ -94,7 +94,10 @@ class BaseView extends Backbone.View<Backbone.Model> {
 	 * @return {Backbone.View} The view instance
 	 */
 	render(): Backbone.View<Backbone.Model> {
-		(<JQuery>this.container).append(this.$el);
+		let container = this.container;
+		if (container instanceof jQuery && container.length) {
+			(<JQuery>container).append(this.$el);
+		}
 		return super.render();
 	}
 

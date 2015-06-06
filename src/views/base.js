@@ -66,7 +66,10 @@ define(["require", "exports", 'backbone', 'underscore', 'jquery', "rivets", "riv
          * @return {Backbone.View} The view instance
          */
         BaseView.prototype.render = function () {
-            this.container.append(this.$el);
+            var container = this.container;
+            if (container instanceof jQuery && container.length) {
+                container.append(this.$el);
+            }
             return _super.prototype.render.call(this);
         };
         /**
