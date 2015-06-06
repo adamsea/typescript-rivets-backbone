@@ -18,13 +18,13 @@
     "tests"
   ],
   "dependencies": {
-    "backbone": "~1.1.2",
+    "backbone": "~1.2.0",
     "jquery": "~2.1.4",
-    "lodash": "~2.4.2",
     "requirejs": "~2.1.17",
     "requirejs-i18n": "~2.0.5",
     "requirejs-text": "~2.0.14",
     "rivets": "~0.8.1",
-    "rivets-backbone-adapter": "~2.1.2"
+    "rivets-backbone-adapter": "~2.1.2",
+    "underscore": "~1.8.3"
   }
 }

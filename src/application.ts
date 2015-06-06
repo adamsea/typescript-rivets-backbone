@@ -4,76 +4,103 @@
 
 import Backbone = require('backbone');
 import _ = require('underscore');
-import BaseView = require('views/base');
+import BasePage = require('pages/base');
 
-// Possible pages
-import OverviewPage = require('pages/overview');
+// Import pages you'll be using here
+import IndexPage = require('pages/index');
 
 /**
- * This is the application loader for Blopboard Analytics.
+ * This is the main controller for loading pages
+ * and building layouts within the application.
  * @class Application
  * @extends Backbone.View
  * @uses Backbone
  */
-class Application<TModel extends Backbone.Model> extends Backbone.View<TModel> {
-	
+class Application extends Backbone.View<Backbone.Model> {
+
+	/**
+	 * Bound application view instance.
+	 * This is how rivets can bind and unbind an application.
+	 * @property boundView
+	 * @private
+	 */
+	private boundView: { unbind: Function }
+
 	/**
 	 * Page instance to render.
 	 * This gets swapped based on navigation.
 	 * @property page
-	 * @type {BaseView}
+	 * @type {BasePage}
 	 */
-	page: BaseView<Backbone.Model>
-	
+	page: BasePage
+
 	/**
 	 * Constructor for the application.
 	 * @method constructor
 	 * @param {Backbone.ViewOptions} options The application options
 	 */
-	constructor(options: Backbone.ViewOptions<TModel> = {}) {
-		_.defaults(options, {el: '#application'});
-		super(options);
+	constructor(options: Backbone.ViewOptions<Backbone.Model> = {}) {
+		super(_.defaults(options, {el: '#application'}));
 	}
 
 	/**
-	 * Application initialization logic.
-	 * @method initialize
-	 * @param {Backbone.ViewOptions} options The application options
+	 * Build index page for the application.
+	 * @method index
 	 */
-	initialize(options: Backbone.ViewOptions<TModel>): void {
-		// Select the page
-		this.page = new OverviewPage({
-			model: new Backbone.Model({text: 'Component Button'})
-		});
+	index(): void {
+		this.remove();
+		this.page = new IndexPage();
+		this.render();
 	}
-	
+
 	/**
 	 * Remove the view.
-	 * Will also remove subviews.
+	 * Will also remove the page view and unbind rivets.
 	 * @method remove
 	 * @return {Backbone.View} The view instance
 	 */
-	remove(): Backbone.View<TModel> {
+	remove(): Backbone.View<Backbone.Model> {
 		// Destroy the page
-		this.page.remove();
-		return super.remove();
+		if (this.page) {
+			this.page.remove();
+		}
+
+		// Unbind rivets
+		if (this.boundView) {
+			this.boundView.unbind();
+		}
+
+		// Return view instance for backbone compatibility
+		return this;
 	}
-	
+
 	/**
 	 * Render the view.
+	 * This will render the page that was created
+	 * and bind the components created within the
+	 * scope of the pages' view instances.
 	 * @method render
 	 * @return {Backbone.View} The view instance
 	 */
-	render(): Backbone.View<TModel> {
+	render(): Backbone.View<Backbone.Model> {
 		// Render the page
-		this.page.render();
-		
-		// Bind components to rivets
+		if (this.page) {
+			this.page.render();
+		}
+
+		// Bind the application to rivets
 		let rivets = require('rivets');
-		rivets.bind(this.$el, {collection: this.collection});
+		this.boundView = rivets.bind(this.$el);
+
+		// Call afterRender cycle
+		if (this.page) {
+			this.page.afterRender();
+		}
+
+		// Return view instance
 		return super.render();
 	}
-	
+
 }
 
 export = Application;

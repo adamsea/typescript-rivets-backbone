@@ -7,9 +7,10 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", 'backbone', 'underscore', 'pages/overview', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, OverviewPage) {
+define(["require", "exports", 'backbone', 'underscore', 'pages/index', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, IndexPage) {
     /**
-     * This is the application loader for Blopboard Analytics.
+     * This is the main controller for loading pages
+     * and building layouts within the application.
      * @class Application
      * @extends Backbone.View
      * @uses Backbone
@@ -23,42 +24,56 @@ define(["require", "exports", 'backbone', 'underscore', 'pages/overview', "rivet
          */
         function Application(options) {
             if (options === void 0) { options = {}; }
-            _.defaults(options, { el: '#application' });
-            _super.call(this, options);
+            _super.call(this, _.defaults(options, { el: '#application' }));
         }
         /**
-         * Application initialization logic.
-         * @method initialize
-         * @param {Backbone.ViewOptions} options The application options
+         * Build index page for the application.
+         * @method index
          */
-        Application.prototype.initialize = function (options) {
-            // Select the page
-            this.page = new OverviewPage({
-                model: new Backbone.Model({ text: 'Component Button' })
-            });
+        Application.prototype.index = function () {
+            this.remove();
+            this.page = new IndexPage();
+            this.render();
         };
         /**
          * Remove the view.
-         * Will also remove subviews.
+         * Will also remove the page view and unbind rivets.
          * @method remove
          * @return {Backbone.View} The view instance
          */
         Application.prototype.remove = function () {
             // Destroy the page
-            this.page.remove();
-            return _super.prototype.remove.call(this);
+            if (this.page) {
+                this.page.remove();
+            }
+            // Unbind rivets
+            if (this.boundView) {
+                this.boundView.unbind();
+            }
+            // Return view instance for backbone compatibility
+            return this;
         };
         /**
          * Render the view.
+         * This will render the page that was created
+         * and bind the components created within the
+         * scope of the pages' view instances.
          * @method render
          * @return {Backbone.View} The view instance
          */
         Application.prototype.render = function () {
             // Render the page
-            this.page.render();
-            // Bind components to rivets
+            if (this.page) {
+                this.page.render();
+            }
+            // Bind the application to rivets
             var rivets = require('rivets');
-            rivets.bind(this.$el, { collection: this.collection });
+            this.boundView = rivets.bind(this.$el);
+            // Call afterRender cycle
+            if (this.page) {
+                this.page.afterRender();
+            }
+            // Return view instance
             return _super.prototype.render.call(this);
         };
         return Application;

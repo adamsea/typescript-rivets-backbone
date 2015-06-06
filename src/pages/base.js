@@ -15,39 +15,34 @@ define(["require", "exports", 'underscore', 'views/base'], function (require, ex
          */
         function BasePage(options) {
             if (options === void 0) { options = {}; }
-            _.defaults(options, { container: '#page' });
-            _super.call(this, options);
+            _super.call(this, _.defaults(options, { container: '#application' }));
         }
         /**
-         * Initialization logic for the view.
-         * Will construct components for the page.
-         * @method initialize
-         * @param {Backbone.ViewOptions} options The page options
+         * No-op the template binding since we do
+         * not have a custom component for the page.
+         * @method bindTemplate
+         * @protected
          */
-        BasePage.prototype.initialize = function (options) {
-            _super.prototype.initialize.call(this, options);
-            // Initialize page components
-            this.components = [];
-        };
+        BasePage.prototype.bindTemplate = function () { };
         /**
          * Remove the view.
-         * Will also remove components.
+         * Will also remove subviews.
          * @method remove
          */
         BasePage.prototype.remove = function () {
-            // Destroy all subcomponents
-            this.components.forEach(function (i) { return i.view.remove(); });
+            // Destroy all subviews
+            this.views.forEach(function (v) { return v.remove(); });
             return _super.prototype.remove.call(this);
         };
         /**
          * Render the view.
-         * Will also render components.
+         * Will also render subviews.
          * @method render
          * @return {Backbone.View} The view instance
          */
         BasePage.prototype.render = function () {
-            // Render all subcomponents
-            this.components.forEach(function (i) { return i.view.render(); });
+            // Render all subviews
+            this.views.forEach(function (v) { return v.render(); });
             return _super.prototype.render.call(this);
         };
         return BasePage;
