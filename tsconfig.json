@@ -3,5 +3,10 @@
 		"target": "ES5",
 		"module": "amd",
 		"sourceMap": false
-	}
+	},
+	"files": [
+		"typings/index.d.ts",
+		"src/config.ts",
+		"src/main.ts"
+	]
 }

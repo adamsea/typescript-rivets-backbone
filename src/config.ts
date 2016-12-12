@@ -1,5 +1,3 @@
-/// <reference path="../typings/tsd.d.ts" />
-
 //
 // RequireJS config for the application.
 //

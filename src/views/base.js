@@ -1,4 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
 /// <amd-dependency path="rivets" />
 /// <amd-dependency path="rivets-backbone" />
 var __extends = (this && this.__extends) || function (d, b) {

@@ -1,4 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
 /// <amd-dependency path="text!templates/components/page-title.html" />
 
 import _ = require('underscore');

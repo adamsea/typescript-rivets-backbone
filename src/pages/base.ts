@@ -1,5 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
-
 import _ = require('underscore');
 import BaseView = require('views/base');
 

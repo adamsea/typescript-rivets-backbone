@@ -1,4 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
 /// <amd-dependency path="text!templates/pages/index.html" />
 
 import Backbone = require('backbone');

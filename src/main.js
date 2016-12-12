@@ -1,4 +1,3 @@
-/// <reference path="../typings/tsd.d.ts" />
 define(["require", "exports", "router"], function (require, exports, Router) {
     "use strict";
     //
