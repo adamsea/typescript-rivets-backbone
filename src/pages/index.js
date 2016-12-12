@@ -1,12 +1,12 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <amd-dependency path="text!templates/pages/index.html" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'backbone', 'pages/base', 'views/page-title', 'views/button-item', "text!templates/pages/index.html"], function (require, exports, Backbone, BasePage, PageTitle, ButtonItem) {
+define(["require", "exports", "backbone", "pages/base", "views/page-title", "views/button-item", "text!templates/pages/index.html"], function (require, exports, Backbone, BasePage, PageTitle, ButtonItem) {
+    "use strict";
     var IndexPage = (function (_super) {
         __extends(IndexPage, _super);
         /**
@@ -16,8 +16,10 @@ define(["require", "exports", 'backbone', 'pages/base', 'views/page-title', 'vie
          */
         function IndexPage(options) {
             if (options === void 0) { options = {}; }
-            this.el = require('text!templates/pages/index.html');
-            _super.call(this, options);
+            var _this;
+            _this.el = require('text!templates/pages/index.html');
+            _this = _super.call(this, options) || this;
+            return _this;
         }
         /**
          * Initialization logic for the view.
@@ -39,6 +41,6 @@ define(["require", "exports", 'backbone', 'pages/base', 'views/page-title', 'vie
             _super.prototype.initialize.call(this, options);
         };
         return IndexPage;
-    })(BasePage);
+    }(BasePage));
     return IndexPage;
 });

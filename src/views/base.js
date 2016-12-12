@@ -1,13 +1,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <amd-dependency path="rivets" />
 /// <amd-dependency path="rivets-backbone" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'backbone', 'underscore', 'jquery', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, $) {
+define(["require", "exports", "backbone", "underscore", "jquery", "rivets", "rivets-backbone"], function (require, exports, Backbone, _, $) {
+    "use strict";
     /**
      * This is a base view for defining a common
      * render pattern and common view disposal pattern.
@@ -20,16 +20,17 @@ define(["require", "exports", 'backbone', 'underscore', 'jquery', "rivets", "riv
          * @param {Backbone.ViewOptions} options The view options
          */
         function BaseView(options) {
-            var _this = this;
             if (options === void 0) { options = {}; }
-            (this.optionNames || ['container']).forEach(function (o) {
+            var _this;
+            (_this.optionNames || ['container']).forEach(function (o) {
                 if (_.has(options, o)) {
                     _this[o] = options[o];
                 }
             });
-            this.container = $(this.container);
-            this.views = [];
-            _super.call(this, options);
+            _this.container = $(_this.container);
+            _this.views = [];
+            _this = _super.call(this, options) || this;
+            return _this;
         }
         /**
          * Bind the template for this view.
@@ -88,6 +89,6 @@ define(["require", "exports", 'backbone', 'underscore', 'jquery', "rivets", "riv
             return this;
         };
         return BaseView;
-    })(Backbone.View);
+    }(Backbone.View));
     return BaseView;
 });

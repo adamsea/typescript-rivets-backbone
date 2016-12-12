@@ -1,11 +1,11 @@
 /// <reference path="../typings/tsd.d.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'backbone', 'underscore', 'application'], function (require, exports, Backbone, _, Application) {
+define(["require", "exports", "backbone", "underscore", "application"], function (require, exports, Backbone, _, Application) {
+    "use strict";
     /**
      * The router is used to manage app navigation.
      * @class Router
@@ -21,12 +21,12 @@ define(["require", "exports", 'backbone', 'underscore', 'application'], function
          */
         function Router(options) {
             if (options === void 0) { options = { routes: void 0 }; }
-            _super.call(this, _.defaults(options, {
+            return _super.call(this, _.defaults(options, {
                 // Insert application routes here...
                 routes: {
                     "": "index"
                 }
-            }));
+            })) || this;
         }
         /**
          * Initialize the router.
@@ -62,6 +62,6 @@ define(["require", "exports", 'backbone', 'underscore', 'application'], function
             return queryObj;
         };
         return Router;
-    })(Backbone.Router);
+    }(Backbone.Router));
     return Router;
 });

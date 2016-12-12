@@ -1,13 +1,13 @@
 /// <reference path="../typings/tsd.d.ts" />
 /// <amd-dependency path="rivets" />
 /// <amd-dependency path="rivets-backbone" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'backbone', 'underscore', 'pages/index', "rivets", "rivets-backbone"], function (require, exports, Backbone, _, IndexPage) {
+define(["require", "exports", "backbone", "underscore", "pages/index", "rivets", "rivets-backbone"], function (require, exports, Backbone, _, IndexPage) {
+    "use strict";
     /**
      * This is the main controller for loading pages
      * and building layouts within the application.
@@ -24,7 +24,7 @@ define(["require", "exports", 'backbone', 'underscore', 'pages/index', "rivets",
          */
         function Application(options) {
             if (options === void 0) { options = {}; }
-            _super.call(this, _.defaults(options, { el: '#application' }));
+            return _super.call(this, _.defaults(options, { el: '#application' })) || this;
         }
         /**
          * Build index page for the application.
@@ -77,6 +77,6 @@ define(["require", "exports", 'backbone', 'underscore', 'pages/index', "rivets",
             return _super.prototype.render.call(this);
         };
         return Application;
-    })(Backbone.View);
+    }(Backbone.View));
     return Application;
 });

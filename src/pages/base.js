@@ -1,11 +1,11 @@
 /// <reference path="../../typings/tsd.d.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", 'underscore', 'views/base'], function (require, exports, _, BaseView) {
+define(["require", "exports", "underscore", "views/base"], function (require, exports, _, BaseView) {
+    "use strict";
     var BasePage = (function (_super) {
         __extends(BasePage, _super);
         /**
@@ -15,7 +15,7 @@ define(["require", "exports", 'underscore', 'views/base'], function (require, ex
          */
         function BasePage(options) {
             if (options === void 0) { options = {}; }
-            _super.call(this, _.defaults(options, { container: '#application' }));
+            return _super.call(this, _.defaults(options, { container: '#application' })) || this;
         }
         /**
          * No-op the template binding since we do
@@ -46,6 +46,6 @@ define(["require", "exports", 'underscore', 'views/base'], function (require, ex
             return _super.prototype.render.call(this);
         };
         return BasePage;
-    })(BaseView);
+    }(BaseView));
     return BasePage;
 });
